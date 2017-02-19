@@ -3,6 +3,7 @@ const Schema = mongoose.Schema
 
 var userSchema = new Schema({
   username: {type:String,required:true,unique:true},
+  photo: String,
   skills:[{
     name: String,
     score: Number

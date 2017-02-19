@@ -22,6 +22,7 @@ module.exports = {
       } else {
         let newUser = new User({
           username: req.body.username,
+          photo: req.body.photo,
           skills: []
         })
         newUser.save()
