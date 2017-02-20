@@ -32,6 +32,12 @@ module.exports = {
       }
     })
   },
+  getSkills: function(req,res){
+    User.find({username: req.params.username})
+    .then(function(data){
+      res.json(data[0].skills)
+    })
+  },
   addSkill: function(req,res){
     User.findOne({username: req.params.username})
     .then(function(data){

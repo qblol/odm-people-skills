@@ -1,6 +1,7 @@
 $(document).ready(function(){
   $('.modal').modal();
   getUsers()
+  // getSkills()
 });
 
 function getUsers(){
@@ -12,12 +13,11 @@ function getUsers(){
         $('#peoples').prepend(`
           <div id="${data.username}" class="col s3">
             <div class="card">
-              <div class="card-image waves-effect waves-block waves-light">
+              <div class="card-image waves-effect waves-block waves-light" onclick="getSkills('${data.username}')">
                 <img class="activator" src="${data.photo}">
               </div>
-              <div class="card-content">
+              <div class="card-content" onclick="getSkills('${data.username}')">
                 <span class="card-title activator grey-text text-darken-4">${data.username}<i class="material-icons right">more_vert</i></span>
-                <p><a href="#">Skills</a></p>
               </div>
               <div class="card-reveal">
                 <span class="card-title grey-text text-darken-4">${data.username} Skills<i class="material-icons right">close</i></span>
@@ -46,6 +46,25 @@ function getUsers(){
             <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat" onclick="addSkill('${data.username}')">Submit</a>
             <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Cancel</a>
           </div>
+        `)
+      })
+    }
+  })
+}
+
+function getSkills(username) {
+  $.ajax({
+    url: `http://localhost:3000/api/users/${username}/skills`,
+    type: 'GET',
+    success: function(data) {
+      $(`#${username}-skill`).empty()
+      data.forEach(function(skill){
+        $(`#${username}-skill`).prepend(`
+          <tr id="${username}-${skill.name}">
+            <td>${skill.name}</td>
+            <td>${skill.score}</td>
+            <td><a onclick="removeSkill('${username}','${skill.name}')" class="waves-effect waves-light btn red"><i class="material-icons center"><i class="material-icons">delete_forever</i></i></a></td>
+          </tr>
         `)
       })
     }
